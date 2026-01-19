@@ -1,0 +1,7 @@
+# ignore all files
+*
+
+# but not this gitignore
+!.gitignore
+# but not files in the api directory
+!api/

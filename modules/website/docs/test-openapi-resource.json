@@ -1,0 +1,734 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "test Module",
+        "description": "API documentation for test module",
+        "contact": {
+            "name": "Ananda Douglas",
+            "email": "douglasdaggs@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://playground:8082/v2",
+            "description": "API Development Server"
+        },
+        {
+            "url": "https://afya365.com/v2",
+            "description": "API Staging Server"
+        }
+    ],
+    "paths": {
+        "/test/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get  users  ",
+                "description": "Returns a list of User  models",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 25
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Global search query to filter users",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "admin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "users Data Payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "user_id": {
+                                                                "title": "User Id",
+                                                                "description": "No description",
+                                                                "type": "bigint",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "username": {
+                                                                "title": "Username",
+                                                                "description": "No description",
+                                                                "type": "string",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "profile_id": {
+                                                                "title": "Profile Id",
+                                                                "description": "No description",
+                                                                "type": "bigint",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "auth_key": {
+                                                                "title": "Auth Key",
+                                                                "description": "No description",
+                                                                "type": "string",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "password_hash": {
+                                                                "title": "Password Hash",
+                                                                "description": "No description",
+                                                                "type": "string",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "password_reset_token": {
+                                                                "title": "Password Reset Token",
+                                                                "description": "No description",
+                                                                "type": "string",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "verification_token": {
+                                                                "title": "Verification Token",
+                                                                "description": "No description",
+                                                                "type": "string",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "email_verified_at": {
+                                                                "title": "Email Verified At",
+                                                                "description": "No description",
+                                                                "type": "integer",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "mobile_verified_at": {
+                                                                "title": "Mobile Verified At",
+                                                                "description": "No description",
+                                                                "type": "integer",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "last_login_at": {
+                                                                "title": "Last Login At",
+                                                                "description": "No description",
+                                                                "type": "integer",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "last_login_ip": {
+                                                                "title": "Last Login Ip",
+                                                                "description": "No description",
+                                                                "type": "string",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "is_locked": {
+                                                                "title": "Is Locked",
+                                                                "description": "No description",
+                                                                "type": "tinyint",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "status": {
+                                                                "title": "Status",
+                                                                "description": "No description",
+                                                                "type": "smallint",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "is_deleted": {
+                                                                "title": "Is Deleted",
+                                                                "description": "No description",
+                                                                "type": "tinyint",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "created_at": {
+                                                                "title": "Created At",
+                                                                "description": "No description",
+                                                                "type": "integer",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "updated_at": {
+                                                                "title": "Updated At",
+                                                                "description": "No description",
+                                                                "type": "integer",
+                                                                "example": "xxx-xxx"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "countOnPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalCount": {
+                                                    "type": "integer",
+                                                    "example": "50"
+                                                },
+                                                "perPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer",
+                                                    "example": "2"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "paginationLinks": {
+                                                    "properties": {
+                                                        "first": {
+                                                            "type": "string",
+                                                            "example": "/v2/test/users?page=1&per-page=25"
+                                                        },
+                                                        "previous": {
+                                                            "type": "string",
+                                                            "example": "/v2/test/users?page=1&per-page=25"
+                                                        },
+                                                        "self": {
+                                                            "type": "string",
+                                                            "example": "/v2/test/users?page=1&per-page=25"
+                                                        },
+                                                        "next": {
+                                                            "type": "string",
+                                                            "example": "/v2/test/users?page=1&per-page=25"
+                                                        },
+                                                        "last": {
+                                                            "type": "string",
+                                                            "example": "/v2/test/users?page=1&per-page=25"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/test/user": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create User ",
+                "description": "Creates a new User model",
+                "requestBody": {
+                    "description": "Fill in user data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "user created succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "alert"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/test/user/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User ",
+                "description": "Returns a single User model",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested user does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User",
+                "description": "Updates an existing User model.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Finds the User model to be updated based on its primary key value",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "user updated succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "alert"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested user does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete User ",
+                "description": "Deletes an existing User model.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User unique ID to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Deletion successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "user deleted succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "toast"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested user does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Restore User ",
+                "description": "Restores a deleted User model.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User unique ID to restore",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Restoration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "user restored succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "toast"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested user does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "properties": {
+                    "user_id": {
+                        "title": "User id",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "profile_id": {
+                        "title": "Profile id",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "auth_key": {
+                        "title": "Auth key",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "password_hash": {
+                        "title": "Password hash",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "password_reset_token": {
+                        "title": "Password reset token",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "verification_token": {
+                        "title": "Verification token",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "email_verified_at": {
+                        "title": "Email verified at",
+                        "type": "int",
+                        "example": "int"
+                    },
+                    "mobile_verified_at": {
+                        "title": "Mobile verified at",
+                        "type": "int",
+                        "example": "int"
+                    },
+                    "last_login_at": {
+                        "title": "Last login at",
+                        "type": "int",
+                        "example": "int"
+                    },
+                    "last_login_ip": {
+                        "title": "Last login ip",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "is_locked": {
+                        "title": "Is locked",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "is_deleted": {
+                        "title": "Is deleted",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "type": "integer",
+                        "example": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User",
+            "description": "Available endpoints for User model"
+        }
+    ]
+}

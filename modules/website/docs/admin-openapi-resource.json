@@ -1,0 +1,2602 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Admin Module",
+        "description": "API documentation for admin module",
+        "contact": {
+            "name": "Ananda Douglas",
+            "email": "douglasdaggs@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://playground:8082/v2",
+            "description": "API Development Server"
+        },
+        {
+            "url": "https://afya365.com/v2",
+            "description": "API Staging Server"
+        }
+    ],
+    "paths": {
+        "/admin/logs/access": {
+            "get": {
+                "tags": [
+                    "Access Logs"
+                ],
+                "summary": "Get Logs",
+                "description": "Returns a list of Access logs",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 25
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Global search query to filter logs",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "access_id": {
+                                                                "title": "Access Id",
+                                                                "description": "No description",
+                                                                "type": "integer",
+                                                                "example": "xxx-xxx"
+                                                            },
+                                                            "user": {
+                                                                "title": "User ",
+                                                                "description": "User who accessed",
+                                                                "type": "string",
+                                                                "example": "System Admin"
+                                                            },
+                                                            "description": {
+                                                                "title": "Description",
+                                                                "description": "Show what action was performed",
+                                                                "type": "string",
+                                                                "example": "Visited page: /admin/dashboard"
+                                                            },
+                                                            "ip_address": {
+                                                                "title": "Ip Address",
+                                                                "description": "IP address of the user",
+                                                                "type": "string",
+                                                                "example": "192.168.1.1"
+                                                            },
+                                                            "user_agent": {
+                                                                "title": "User Agent",
+                                                                "description": "Browser or device information of the user",
+                                                                "type": "string",
+                                                                "example": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+                                                            },
+                                                            "access_time": {
+                                                                "title": "Access Time",
+                                                                "description": "Timestamp of when the access occurred",
+                                                                "type": "string",
+                                                                "example": "2024-04-27T12:34:56Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "countOnPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalCount": {
+                                                    "type": "integer",
+                                                    "example": "50"
+                                                },
+                                                "perPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer",
+                                                    "example": "2"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "paginationLinks": {
+                                                    "properties": {
+                                                        "first": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/logs/access?page=1&per-page=25"
+                                                        },
+                                                        "previous": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/logs/access?page=1&per-page=25"
+                                                        },
+                                                        "self": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/logs/access?page=1&per-page=25"
+                                                        },
+                                                        "next": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/logs/access?page=1&per-page=25"
+                                                        },
+                                                        "last": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/logs/access?page=1&per-page=25"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/logs/access/{id}": {
+            "get": {
+                "tags": [
+                    "Access Logs"
+                ],
+                "summary": "Get Log ",
+                "description": "Returns a single AccessLogModel model",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "AccessLogModel unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "$ref": "#/components/schemas/AccessLog"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested log does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/audit/trail": {
+            "get": {
+                "tags": [
+                    "Audit Trail"
+                ],
+                "summary": "Get all audit records",
+                "description": "Returns a list of audit records",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 25
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Global search query to filter audit records",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "admin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Audit Trail List"
+                                                    }
+                                                },
+                                                "countOnPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalCount": {
+                                                    "type": "integer",
+                                                    "example": "50"
+                                                },
+                                                "perPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer",
+                                                    "example": "2"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "paginationLinks": {
+                                                    "properties": {
+                                                        "first": {
+                                                            "type": "string",
+                                                            "example": "v2/admin/audit-trails?page=1&per-page=25"
+                                                        },
+                                                        "previous": {
+                                                            "type": "string",
+                                                            "example": "v2/admin/audit-trails?page=1&per-page=25"
+                                                        },
+                                                        "self": {
+                                                            "type": "string",
+                                                            "example": "v2/admin/audit-trails?page=1&per-page=25"
+                                                        },
+                                                        "next": {
+                                                            "type": "string",
+                                                            "example": "v2/admin/audit-trails?page=1&per-page=25"
+                                                        },
+                                                        "last": {
+                                                            "type": "string",
+                                                            "example": "v2/admin/audit-trails?page=1&per-page=25"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/audit/trail/{uid}": {
+            "get": {
+                "tags": [
+                    "Audit Trail"
+                ],
+                "summary": "Get Audit record ",
+                "description": "Returns a single audit record",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Audit record unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a single audit record.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "$ref": "#/components/schemas/Audit Trail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested auditmodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Audit Trail"
+                ],
+                "summary": "Delete Audit record ",
+                "description": "Deletes an existing audit record.",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Audit record unique ID to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Deletion successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "audit-trail deleted succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "toast"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested auditmodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Audit Trail"
+                ],
+                "summary": "Restore Audit record ",
+                "description": "Restores a deleted audit record.",
+                "parameters": [
+                    {
+                        "name": "uid",
+                        "in": "path",
+                        "description": "Audit record unique ID to restore",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Restoration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "audit-trail restored succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "toast"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested auditmodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/logs/error": {
+            "get": {
+                "tags": [
+                    "Error Logs"
+                ],
+                "summary": "Get Errors",
+                "description": "Returns a list of error logs",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 25
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Global search query to filter error logs",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "yii\\web\\HttpException:404"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "title": "Id",
+                                                                "description": "Error log id",
+                                                                "type": "bigint",
+                                                                "example": "1"
+                                                            },
+                                                            "level": {
+                                                                "title": "Level",
+                                                                "description": "Severity level of the error",
+                                                                "type": "integer",
+                                                                "example": "Error"
+                                                            },
+                                                            "category": {
+                                                                "title": "Category",
+                                                                "description": "Category of the error",
+                                                                "type": "string",
+                                                                "example": " application"
+                                                            },
+                                                            "log_time": {
+                                                                "title": "Log Time",
+                                                                "description": "Timestamp when the error was logged",
+                                                                "type": "string",
+                                                                "example": "2024-04-27T12:34:56Z"
+                                                            },
+                                                            "is_resolved": {
+                                                                "title": "Is Resolved",
+                                                                "description": "Indicates whether the error has been resolved",
+                                                                "type": "integer",
+                                                                "example": "0"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "countOnPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalCount": {
+                                                    "type": "integer",
+                                                    "example": "50"
+                                                },
+                                                "perPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer",
+                                                    "example": "2"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "paginationLinks": {
+                                                    "properties": {
+                                                        "first": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/error-logs?page=1&per-page=25"
+                                                        },
+                                                        "previous": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/error-logs?page=1&per-page=25"
+                                                        },
+                                                        "self": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/error-logs?page=1&per-page=25"
+                                                        },
+                                                        "next": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/error-logs?page=1&per-page=25"
+                                                        },
+                                                        "last": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/error-logs?page=1&per-page=25"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/logs/error/{id}": {
+            "get": {
+                "tags": [
+                    "Error Logs"
+                ],
+                "summary": "Get Error ",
+                "description": "Returns a single error log",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Log unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "$ref": "#/components/schemas/LogModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested error does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Error Logs"
+                ],
+                "summary": "Resolve Error",
+                "description": "Marks the specified error log as resolved",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Error Log unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/LogModel"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Error resolved successfully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "alert"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested logmodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/LogModel"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/settings/general": {
+            "get": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "General Settings",
+                "description": "Retrieve general configuration settings",
+                "responses": {
+                    "200": {
+                        "description": "Data payload for general settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/General Settings"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Save General Settings",
+                "description": "Update general configuration settings",
+                "requestBody": {
+                    "description": "Fill in general settings  data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/General Settings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/General Settings"
+                                                },
+                                                "alertify": {
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string",
+                                                            "example": "General settings updated successfully."
+                                                        },
+                                                        "theme": {
+                                                            "type": "string",
+                                                            "example": "success"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "toast"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/General Settings"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/settings/mailer": {
+            "get": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Mailer Settings",
+                "description": "Retrieve mailer configuration settings",
+                "responses": {
+                    "200": {
+                        "description": "Data payload for mailer settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Mailer Settings"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Save Mailer Settings",
+                "description": "Update mailer configuration settings",
+                "requestBody": {
+                    "description": "Fill in email settings  data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Mailer Settings"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Mailer Settings"
+                                                },
+                                                "alertify": {
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string",
+                                                            "example": "Mailer settings updated successfully."
+                                                        },
+                                                        "theme": {
+                                                            "type": "string",
+                                                            "example": "success"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "toast"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/Mailer Settings"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/settings/theme": {
+            "get": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Theme Settings",
+                "description": "Retrieve theme configuration settings",
+                "responses": {
+                    "200": {
+                        "description": "Data payload for theme settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Theme & Appearance"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Save Theme Settings",
+                "description": "Update theme configuration settings",
+                "requestBody": {
+                    "description": "Fill in  settings  data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Theme & Appearance"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Theme & Appearance"
+                                                },
+                                                "alertify": {
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string",
+                                                            "example": "Theme settings updated successfully."
+                                                        },
+                                                        "theme": {
+                                                            "type": "string",
+                                                            "example": "success"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "toast"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/Theme & Appearance"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/settings/security": {
+            "get": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Security Settings",
+                "description": "Retrieve Privacy & Security configuration settings",
+                "responses": {
+                    "200": {
+                        "description": "Data payload for security settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Privacy & Security"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "System Settings"
+                ],
+                "summary": "Save Security Settings",
+                "description": "Update Privacy & Security configuration settings",
+                "requestBody": {
+                    "description": "Fill in  settings  data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Privacy & Security"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Privacy & Security"
+                                                },
+                                                "alertify": {
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string",
+                                                            "example": "Security settings updated successfully."
+                                                        },
+                                                        "security": {
+                                                            "type": "string",
+                                                            "example": "success"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "example": "toast"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/Privacy & Security"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/task/manager": {
+            "get": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "Get all Tasks  ",
+                "description": "Returns a list of scheduled tasks",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 25
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Global search query to filter tasks",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "mailer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Scheduled tasks.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "task_id": {
+                                                                "title": "Task ID",
+                                                                "description": "Unique identifier for the scheduled task",
+                                                                "type": "integer",
+                                                                "example": "1"
+                                                            },
+                                                            "task_title": {
+                                                                "title": "Task Title",
+                                                                "description": "Title or name of the scheduled task",
+                                                                "type": "string",
+                                                                "example": "Database Backup"
+                                                            },
+                                                            "service_name": {
+                                                                "title": "Service Name",
+                                                                "description": "Name of the system service",
+                                                                "type": "string",
+                                                                "example": "Mailer"
+                                                            },
+                                                            "status": {
+                                                                "title": "Status",
+                                                                "properties": {
+                                                                    "label": {
+                                                                        "type": "string",
+                                                                        "example": "Running"
+                                                                    },
+                                                                    "theme": {
+                                                                        "type": "string",
+                                                                        "example": "success"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "countOnPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalCount": {
+                                                    "type": "integer",
+                                                    "example": "50"
+                                                },
+                                                "perPage": {
+                                                    "type": "integer",
+                                                    "example": "25"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer",
+                                                    "example": "2"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "paginationLinks": {
+                                                    "properties": {
+                                                        "first": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/task-managers?page=1&per-page=25"
+                                                        },
+                                                        "previous": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/task-managers?page=1&per-page=25"
+                                                        },
+                                                        "self": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/task-managers?page=1&per-page=25"
+                                                        },
+                                                        "next": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/task-managers?page=1&per-page=25"
+                                                        },
+                                                        "last": {
+                                                            "type": "string",
+                                                            "example": "/v2/admin/task-managers?page=1&per-page=25"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "Schedule New Task",
+                "description": "Creates a new scheduled task",
+                "requestBody": {
+                    "description": "Fill in scheduled task data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Scheduler"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Scheduler"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "task-manager created succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "alert"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "errors": {
+                                                    "$ref": "#/components/schemas/Scheduler"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/task/services": {
+            "get": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "System Services ",
+                "description": "Returns a list of available system services for scheduling tasks",
+                "responses": {
+                    "200": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string",
+                                                                "example": "3ykpGgaacd79JxWENFYtg6l+2sJQ8F2hBKB2Dg+xvJg="
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "Mailer Service"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/task/services/{id}": {
+            "get": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "Service Fields",
+                "description": "Returns a list of available system services for scheduling tasks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Service unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string",
+                                                                "example": "3ykpGgaacd79JxWENFYtg6l+2sJQ8F2hBKB2Dg+xvJg="
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "Mailer Service"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/task/manager/{id}": {
+            "get": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "Get Task  ",
+                "description": "Returns a single scheduled task by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task unique ID to load",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a scheduled task.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "dataPayload": {
+                                            "$ref": "#/components/schemas/Scheduler"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested schedulermodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "Delete Task",
+                "description": "Deletes an existing scheduled task.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task unique ID to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Deletion successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Task deleted successfully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "toast"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested schedulermodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/task-manager/{id}": {
+            "patch": {
+                "tags": [
+                    "Task Manager"
+                ],
+                "summary": "Restore Task",
+                "description": "Restores a soft-deleted scheduled task.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task unique ID to restore",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "xxxx"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Restoration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "alertifyPayload": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "task-manager restored succefully"
+                                                },
+                                                "theme": {
+                                                    "type": "string",
+                                                    "example": "success"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "toast"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errorPayload": {
+                                            "properties": {
+                                                "statusCode": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "The requested schedulermodel does not exist"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AccessLog": {
+                "properties": {
+                    "user": {
+                        "title": "User",
+                        "description": "User who performed the action",
+                        "type": "string",
+                        "example": "System Admin"
+                    },
+                    "action": {
+                        "title": "Action",
+                        "description": "The action performed by the user",
+                        "type": "string",
+                        "example": "login"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Detailed description of the access event",
+                        "type": "string",
+                        "example": "User logged in successfully"
+                    },
+                    "extra_data": {
+                        "title": "Extra Data",
+                        "description": "Additional data related to the access event in JSON format",
+                        "type": "string",
+                        "example": "{}"
+                    },
+                    "ip_info": {
+                        "title": "IP Information",
+                        "description": "Details about the IP address from which the action was performed",
+                        "properties": {
+                            "ip_address": {
+                                "title": "IP Address",
+                                "type": "string",
+                                "example": "192.168.1.1"
+                            },
+                            "country": {
+                                "title": "Country",
+                                "type": "string",
+                                "example": "Kenya"
+                            },
+                            "country_code": {
+                                "title": "Country Code",
+                                "type": "string",
+                                "example": "KE"
+                            },
+                            "region_code": {
+                                "title": "Region Code",
+                                "type": "string",
+                                "example": "30"
+                            },
+                            "region_name": {
+                                "title": "Region Name",
+                                "type": "string",
+                                "example": "Nairobi County"
+                            },
+                            "city": {
+                                "title": "City",
+                                "type": "string",
+                                "example": "Nairobi"
+                            },
+                            "zip_code": {
+                                "title": "ZIP Code",
+                                "type": "string",
+                                "example": "09831"
+                            },
+                            "latitude": {
+                                "title": "Latitude",
+                                "type": "number",
+                                "format": "float",
+                                "example": -1.2841
+                            },
+                            "longitude": {
+                                "title": "Longitude",
+                                "type": "number",
+                                "format": "float",
+                                "example": 36.8155
+                            },
+                            "time_zone": {
+                                "title": "Time Zone",
+                                "type": "string",
+                                "example": "Africa/Nairobi"
+                            },
+                            "isp": {
+                                "title": "ISP",
+                                "type": "string",
+                                "example": "KENET"
+                            },
+                            "organization": {
+                                "title": "Organization",
+                                "type": "string",
+                                "example": "Technical University of Mombasa"
+                            },
+                            "autonomous_system": {
+                                "title": "Autonomous System",
+                                "type": "string",
+                                "example": "AS36914 Kenya Education Network"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "user_agent": {
+                        "title": "User Agent",
+                        "description": "Details about the user agent from which the action was performed",
+                        "properties": {
+                            "platform": {
+                                "title": "Platform",
+                                "type": "string",
+                                "example": "Windows"
+                            },
+                            "browser": {
+                                "title": "Browser",
+                                "type": "string",
+                                "example": "Chrome"
+                            },
+                            "browser_version": {
+                                "title": "Browser Version",
+                                "type": "string",
+                                "example": "89.0.4389.82"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "access_time": {
+                        "title": "Access Time",
+                        "description": "Timestamp of when the access occurred",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-27T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Audit Trail List": {
+                "properties": {
+                    "audit_id": {
+                        "title": "Audit ID",
+                        "description": "Unique identifier of the audit record",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user": {
+                        "title": "System User",
+                        "description": "Name of the system user who performed the action",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "ip_info": {
+                        "title": "IP Information",
+                        "description": "Details about the IP address from which the action was performed",
+                        "properties": {
+                            "ip_address": {
+                                "title": "IP Address",
+                                "type": "string",
+                                "example": "192.168.1.1"
+                            },
+                            "country": {
+                                "title": "Country",
+                                "type": "string",
+                                "example": "Kenya"
+                            },
+                            "country_code": {
+                                "title": "Country Code",
+                                "type": "string",
+                                "example": "KE"
+                            },
+                            "region_code": {
+                                "title": "Region Code",
+                                "type": "string",
+                                "example": "30"
+                            },
+                            "region_name": {
+                                "title": "Region Name",
+                                "type": "string",
+                                "example": "Nairobi County"
+                            },
+                            "city": {
+                                "title": "City",
+                                "type": "string",
+                                "example": "Nairobi"
+                            },
+                            "zip_code": {
+                                "title": "ZIP Code",
+                                "type": "string",
+                                "example": "09831"
+                            },
+                            "latitude": {
+                                "title": "Latitude",
+                                "type": "number",
+                                "format": "float",
+                                "example": -1.2841
+                            },
+                            "longitude": {
+                                "title": "Longitude",
+                                "type": "number",
+                                "format": "float",
+                                "example": 36.8155
+                            },
+                            "time_zone": {
+                                "title": "Time Zone",
+                                "type": "string",
+                                "example": "Africa/Nairobi"
+                            },
+                            "isp": {
+                                "title": "ISP",
+                                "type": "string",
+                                "example": "KENET"
+                            },
+                            "organization": {
+                                "title": "Organization",
+                                "type": "string",
+                                "example": "Technical University of Mombasa"
+                            },
+                            "autonomous_system": {
+                                "title": "Autonomous System",
+                                "type": "string",
+                                "example": "AS36914 Kenya Education Network"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "field_name": {
+                        "title": "Field Name",
+                        "description": "Name of the field that was changed",
+                        "type": "string",
+                        "example": "email"
+                    },
+                    "old_value": {
+                        "title": "Old Value",
+                        "description": "Previous value of the field before the change",
+                        "type": "string",
+                        "example": "old@example.com"
+                    },
+                    "new_value": {
+                        "title": "New Value",
+                        "description": "New value of the field after the change",
+                        "type": "string",
+                        "example": "new@example.com"
+                    },
+                    "audit_time": {
+                        "title": "Audit Time",
+                        "description": "Timestamp when the audit record was created",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01 12:00:00"
+                    },
+                    "operation": {
+                        "title": "Operation",
+                        "description": "Type of operation performed",
+                        "type": "string",
+                        "example": "UPDATE"
+                    },
+                    "request_method": {
+                        "title": "Request Method",
+                        "description": "HTTP method used for the request",
+                        "type": "string",
+                        "example": "POST"
+                    }
+                },
+                "type": "object"
+            },
+            "Audit Trail": {
+                "properties": {
+                    "user": {
+                        "title": "System User",
+                        "description": "Name of the system user who performed the action",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "ip_info": {
+                        "title": "IP Information",
+                        "description": "Details about the IP address from which the action was performed",
+                        "properties": {
+                            "ip_address": {
+                                "title": "IP Address",
+                                "type": "string",
+                                "example": "41.89.128.3"
+                            },
+                            "country": {
+                                "title": "Country",
+                                "type": "string",
+                                "example": "Kenya"
+                            },
+                            "country_code": {
+                                "title": "Country Code",
+                                "type": "string",
+                                "example": "KE"
+                            },
+                            "region_code": {
+                                "title": "Region Code",
+                                "type": "string",
+                                "example": "30"
+                            },
+                            "region_name": {
+                                "title": "Region Name",
+                                "type": "string",
+                                "example": "Nairobi County"
+                            },
+                            "city": {
+                                "title": "City",
+                                "type": "string",
+                                "example": "Nairobi"
+                            },
+                            "zip_code": {
+                                "title": "ZIP Code",
+                                "type": "string",
+                                "example": "09831"
+                            },
+                            "latitude": {
+                                "title": "Latitude",
+                                "type": "number",
+                                "format": "float",
+                                "example": -1.2841
+                            },
+                            "longitude": {
+                                "title": "Longitude",
+                                "type": "number",
+                                "format": "float",
+                                "example": 36.8155
+                            },
+                            "time_zone": {
+                                "title": "Time Zone",
+                                "type": "string",
+                                "example": "Africa/Nairobi"
+                            },
+                            "isp": {
+                                "title": "ISP",
+                                "type": "string",
+                                "example": "KENET"
+                            },
+                            "organization": {
+                                "title": "Organization",
+                                "type": "string",
+                                "example": "Technical University of Mombasa"
+                            },
+                            "autonomous_system": {
+                                "title": "Autonomous System",
+                                "type": "string",
+                                "example": "AS36914 Kenya Education Network"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "user_agent": {
+                        "title": "User Agent",
+                        "description": "Details about the user agent from which the action was performed",
+                        "properties": {
+                            "platform": {
+                                "title": "Platform",
+                                "type": "string",
+                                "example": "Windows"
+                            },
+                            "browser": {
+                                "title": "Browser",
+                                "type": "string",
+                                "example": "Chrome"
+                            },
+                            "browser_version": {
+                                "title": "Browser Version",
+                                "type": "string",
+                                "example": "89.0.4389.82"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "request_context": {
+                        "title": "Request Context",
+                        "description": "Details about the request context",
+                        "properties": {
+                            "request_route": {
+                                "title": "Request Route",
+                                "type": "string",
+                                "example": "admin/user/update"
+                            },
+                            "headers": {
+                                "title": "Headers",
+                                "type": "object",
+                                "example": {
+                                    "Content-Type": "application/json",
+                                    "Accept": "application/json"
+                                }
+                            },
+                            "query_params": {
+                                "title": "Query Parameters",
+                                "type": "object",
+                                "example": {
+                                    "search": "john",
+                                    "status": "active"
+                                }
+                            },
+                            "body_params": {
+                                "title": "Body Parameters",
+                                "description": "Parameters sent in the body of the request",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secret"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "url": {
+                                "title": "URL",
+                                "type": "string",
+                                "example": "https://api.example.com/v1/admin/user/update"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "field_name": {
+                        "title": "Field Name",
+                        "description": "Name of the field that was changed",
+                        "type": "string",
+                        "example": "email"
+                    },
+                    "old_value": {
+                        "title": "Old Value",
+                        "description": "Previous value of the field before the change",
+                        "type": "string",
+                        "example": "old@example.com"
+                    },
+                    "new_value": {
+                        "title": "New Value",
+                        "description": "New value of the field after the change",
+                        "type": "string",
+                        "example": "new@example.com"
+                    },
+                    "audit_time": {
+                        "title": "Audit Time",
+                        "description": "Timestamp when the audit record was created",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01 12:00:00"
+                    },
+                    "operation": {
+                        "title": "Operation",
+                        "description": "Type of operation performed",
+                        "type": "string",
+                        "example": "UPDATE"
+                    },
+                    "process_time": {
+                        "title": "Process Time",
+                        "description": "Time taken to process the request",
+                        "type": "string",
+                        "example": "150 ms"
+                    },
+                    "memory_used": {
+                        "title": "Memory Used",
+                        "description": "Amount of memory used during the request",
+                        "type": "string",
+                        "example": "1.5 MB"
+                    }
+                },
+                "type": "object"
+            },
+            "LogModel": {
+                "properties": {
+                    "level": {
+                        "title": "Level",
+                        "description": "Severity level of the error",
+                        "type": "string",
+                        "example": "Error"
+                    },
+                    "category": {
+                        "title": "Category",
+                        "description": "Category of the error",
+                        "type": "string",
+                        "example": "application"
+                    },
+                    "log_time": {
+                        "title": "Log Time",
+                        "description": "Timestamp when the error was logged",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-27T12:34:56Z"
+                    },
+                    "prefix": {
+                        "title": "Prefix",
+                        "description": "Prefix information for the log entry",
+                        "type": "string",
+                        "example": "[error][application]"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "description": "Detailed error message",
+                        "type": "string",
+                        "example": "An unexpected error occurred in the application."
+                    },
+                    "is_resolved": {
+                        "title": "Is Resolved",
+                        "description": "Indicates whether the error has been resolved",
+                        "type": "integer",
+                        "example": "0"
+                    }
+                },
+                "type": "object"
+            },
+            "Scheduler": {
+                "properties": {
+                    "task_title": {
+                        "title": "Task Title",
+                        "description": "Title or name of the scheduled task",
+                        "type": "string",
+                        "example": "Email Notification"
+                    },
+                    "system_service": {
+                        "title": "Service",
+                        "description": "The class name of the job to be executed",
+                        "type": "string",
+                        "example": "b661d846"
+                    },
+                    "is_recurring": {
+                        "title": "Is Recurring",
+                        "description": "Indicates if the task is recurring. Its only available for interval schedule type",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "schedule_type": {
+                        "title": "Schedule Type",
+                        "description": "Type of schedule for the task, e.g., cron or interval",
+                        "type": "string",
+                        "example": "interval"
+                    },
+                    "schedule_value": {
+                        "title": "Schedule Value",
+                        "description": "Value associated with the schedule type, e.g., interval duration or cron expression",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "service_payload": {
+                        "title": "Payload",
+                        "description": "Additional data required for the job execution",
+                        "properties": {
+                            "to": {
+                                "title": "Recipient Email",
+                                "description": "Email addresses of the recipients",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "douglasdaggs@gmail.com",
+                                    "douglasdaggs@tum.ac.ke"
+                                ]
+                            },
+                            "cc": {
+                                "title": "CC Email",
+                                "description": "Email addresses to be CC'd on the email",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "anandadaggs@gmail.com",
+                                    "admin@crackit.co.ke"
+                                ]
+                            },
+                            "subject": {
+                                "title": "Email Subject",
+                                "description": "Subject of the email",
+                                "type": "string",
+                                "example": "Test Email from Omnibase"
+                            },
+                            "body": {
+                                "title": "Email Body",
+                                "description": "Content of the email",
+                                "type": "string",
+                                "example": "This is a test email sent from the Omnibase system."
+                            },
+                            "template": {
+                                "title": "Email Template",
+                                "description": "Template to be used for the email",
+                                "type": "string",
+                                "example": "default"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "General Settings": {
+                "properties": {
+                    "business_name": {
+                        "title": "Business Name",
+                        "description": "The name of the business",
+                        "type": "string",
+                        "example": "Acme Corp"
+                    },
+                    "physical_address": {
+                        "title": "Physical Address",
+                        "description": "The physical address of the business",
+                        "type": "string",
+                        "example": "Mombasa"
+                    },
+                    "postal_address": {
+                        "title": "Postal Address",
+                        "description": "The postal code (numbers and hyphens only)",
+                        "type": "string",
+                        "example": "0000"
+                    },
+                    "email_address": {
+                        "title": "Email Address",
+                        "description": "The primary email address",
+                        "type": "string",
+                        "example": "info@example.com"
+                    },
+                    "website": {
+                        "title": "Website",
+                        "description": "The business website URL (include http/https)",
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "primary_mobile_number": {
+                        "title": "Primary Mobile Number",
+                        "description": "The primary mobile number (Kenyan format)",
+                        "type": "string",
+                        "example": "+254700000000"
+                    }
+                },
+                "type": "object"
+            },
+            "Mailer Settings": {
+                "properties": {
+                    "from_name": {
+                        "title": "From Name",
+                        "description": "The sender name that appears in emails",
+                        "type": "string",
+                        "example": "System Mailer"
+                    },
+                    "smtp_server": {
+                        "title": "SMTP Server",
+                        "description": "The SMTP server address for sending emails",
+                        "type": "string",
+                        "example": "mail.example.com"
+                    },
+                    "smtp_port": {
+                        "title": "Port",
+                        "description": "The SMTP port number (typically 465 for SSL or 587 for TLS)",
+                        "type": "integer",
+                        "example": "587"
+                    },
+                    "smtp_username": {
+                        "title": "SMTP Username",
+                        "description": "The username for SMTP authentication",
+                        "type": "string",
+                        "example": "noreply@example.com"
+                    },
+                    "smtp_password": {
+                        "title": "Password",
+                        "description": "The password for SMTP authentication (encrypted)",
+                        "type": "string",
+                        "example": "emailpassword"
+                    },
+                    "email_encryption": {
+                        "title": "Encryption",
+                        "description": "The encryption method for SMTP connection (none, ssl, or tls)",
+                        "type": "string",
+                        "example": "tls"
+                    }
+                },
+                "type": "object"
+            },
+            "Privacy & Security": {
+                "properties": {
+                    "otp_expiry": {
+                        "title": "OTP Expiry",
+                        "description": "OTP expiry time in minutes",
+                        "type": "integer",
+                        "maximum": 60,
+                        "minimum": 1,
+                        "example": 1
+                    },
+                    "trusted_device_duration": {
+                        "title": "Trusted Device Duration",
+                        "description": "Trusted device duration in days",
+                        "type": "integer",
+                        "maximum": 60,
+                        "minimum": 1,
+                        "example": 30
+                    },
+                    "maximum_login_attempts": {
+                        "title": "Maximum Login Attempts",
+                        "description": "Maximum allowed login attempts",
+                        "type": "integer",
+                        "maximum": 20,
+                        "minimum": 1,
+                        "example": 2
+                    },
+                    "profile_lock_duration": {
+                        "title": "Account Lock Duration",
+                        "description": "Account lock duration in minutes",
+                        "type": "integer",
+                        "maximum": 1440,
+                        "minimum": 1,
+                        "example": 1
+                    },
+                    "two_factor_auth": {
+                        "title": "Two-Factor Authentication",
+                        "description": "Enable two-factor authentication",
+                        "type": "boolean",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "Theme & Appearance": {
+                "properties": {
+                    "defaultPageSize": {
+                        "title": "Default Page Size",
+                        "description": "Default number of items per page",
+                        "type": "integer",
+                        "example": 25
+                    },
+                    "pageSizeLimit": {
+                        "title": "Page Size Limit",
+                        "description": "Maximum number of items per page",
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Access Logs",
+            "description": "Available endpoints for Access Logs"
+        },
+        {
+            "name": "Audit Trail",
+            "description": "Available endpoints for Audit Trail management"
+        },
+        {
+            "name": "Error Logs",
+            "description": "Available endpoints for LogModel model"
+        },
+        {
+            "name": "System Settings",
+            "description": "Manage system settings"
+        },
+        {
+            "name": "Task Manager",
+            "description": "Available endpoints for Task Manager model"
+        }
+    ]
+}
