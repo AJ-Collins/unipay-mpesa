@@ -3,7 +3,7 @@
 /**
  * @OA\Server(
  *     description="API Development Server",
- *     url="http://playground:8082/v2"
+ *     url="http://localhost:8082/v2"
  * )
  * @OA\Server(
  *     description="API Staging Server",
