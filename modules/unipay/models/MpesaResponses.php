@@ -40,7 +40,7 @@ class MpesaResponses extends \unipay\hooks\BaseModel
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             [['transaction_id', 'created_at', 'updated_at'], 'required'],
@@ -48,13 +48,10 @@ class MpesaResponses extends \unipay\hooks\BaseModel
             [['transaction_id', 'result_code', 'created_at', 'updated_at'], 'integer'],
             [['raw_payload'], 'safe'],
             [['result_desc'], 'string', 'max' => 255],
-            [['transaction_id'], 'exist',
-                'skipOnError'     => true,
-                'targetClass'     => MpesaTransaction::class,
-                'targetAttribute' => ['transaction_id' => 'id'],
-            ],
+            [['transaction_id'], 'exist', 'skipOnError' => true, 'targetClass' => MpesaTransactions::class, 'targetAttribute' => ['transaction_id' => 'id']],
         ];
     }
+    
 
     /**
      * Gets query for [[Transaction]].
@@ -64,18 +61,5 @@ class MpesaResponses extends \unipay\hooks\BaseModel
     public function getTransaction()
     {
         return $this->hasOne(MpesaTransactions::class, ['id' => 'transaction_id']);
-    }
-
-    /**
-     * Helper
-     * Decode the JSON raw_payload into an array.
-     */
-    public function getPayloadArray(): array
-    {
-        if (empty($this->raw_payload)) {
-            return [];
-        }
-        $decoded = json_decode($this->raw_payload, true);
-        return (json_last_error() === JSON_ERROR_NONE) ? ($decoded ?? []) : [];
     }
 }

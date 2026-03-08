@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "unipay Module",
+        "title": "Unipay Module",
         "description": "API documentation for unipay module",
         "contact": {
             "name": "Ananda Douglas",
@@ -25,26 +25,26 @@
                 "tags": [
                     "M-Pesa"
                 ],
-                "summary": "Initiate STK Push",
-                "description": "Trigger an M-Pesa STK Push prompt on the customer's phone",
+                "summary": "STK Push",
+                "description": "Prompt customer to pay via M-Pesa on their phone (Lipa Na M-Pesa Online).",
                 "requestBody": {
-                    "description": "Payment details",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "phone",
                                     "amount",
-                                    "phone"
+                                    "account_ref"
                                 ],
                                 "properties": {
-                                    "amount": {
-                                        "type": "number",
-                                        "example": 500
-                                    },
                                     "phone": {
                                         "type": "string",
-                                        "example": "07XXXXXXXX"
+                                        "example": "0712345678"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 100
                                     },
                                     "account_ref": {
                                         "type": "string",
@@ -52,7 +52,7 @@
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "Payment for order"
+                                        "example": "Order payment"
                                     }
                                 },
                                 "type": "object"
@@ -72,37 +72,19 @@
                                                 "data": {
                                                     "properties": {
                                                         "CheckoutRequestID": {
-                                                            "type": "string",
-                                                            "example": "ws_CO_..."
+                                                            "type": "string"
                                                         },
                                                         "MerchantRequestID": {
-                                                            "type": "string",
-                                                            "example": "..."
+                                                            "type": "string"
                                                         },
                                                         "ResponseCode": {
-                                                            "type": "string",
-                                                            "example": "0"
+                                                            "type": "string"
                                                         },
                                                         "ResponseDescription": {
-                                                            "type": "string",
-                                                            "example": "Success. Request accepted for processing"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "alertify": {
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string",
-                                                            "example": "Payment prompt sent to your phone."
+                                                            "type": "string"
                                                         },
-                                                        "theme": {
-                                                            "type": "string",
-                                                            "example": "success"
-                                                        },
-                                                        "type": {
-                                                            "type": "string",
-                                                            "example": "toast"
+                                                        "CustomerMessage": {
+                                                            "type": "string"
                                                         }
                                                     },
                                                     "type": "object"
@@ -117,34 +99,7 @@
                         }
                     },
                     "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "alertifyPayload": {
-                                            "properties": {
-                                                "errors": {
-                                                    "properties": {
-                                                        "phone": {
-                                                            "type": "string",
-                                                            "example": "Invalid phone number format. Expected 254710123456"
-                                                        },
-                                                        "amount": {
-                                                            "type": "string",
-                                                            "example": "Amount must be greater than 0"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Validation error"
                     }
                 }
             }
@@ -154,8 +109,8 @@
                 "tags": [
                     "M-Pesa"
                 ],
-                "summary": "Query STK Push Status",
-                "description": "Check the status of a previously initiated STK Push request",
+                "summary": "STK Push Query",
+                "description": "Check the status of a pending STK Push transaction.",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -167,7 +122,7 @@
                                 "properties": {
                                     "checkout_request_id": {
                                         "type": "string",
-                                        "example": "ws_CO_..."
+                                        "example": "ws_CO_260520211133524545"
                                     }
                                 },
                                 "type": "object"
@@ -177,195 +132,167 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "STK Push status",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "dataPayload": {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "ResultCode": {
-                                                            "type": "string",
-                                                            "example": "0"
-                                                        },
-                                                        "ResultDesc": {
-                                                            "type": "string",
-                                                            "example": "The service request is processed successfully."
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Query result"
                     }
                 }
             }
         },
-        "/unipay/mpesa/b2c/send": {
+        "/unipay/mpesa/c2b-register": {
             "post": {
                 "tags": [
                     "M-Pesa"
                 ],
-                "summary": "Send to Customer",
-                "description": "Disburse funds from the business shortcode to a customer phone number",
+                "summary": "Register C2B URLs",
+                "description": "Register Validation and Confirmation URLs for paybill/till C2B payments.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "response_type": {
+                                        "type": "string",
+                                        "example": "Completed"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "URLs registered successfully"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/c2b-simulate": {
+            "post": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "Simulate C2B (Sandbox only)",
+                "description": "Simulate a customer-to-business payment in sandbox environment.",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "amount",
-                                    "phone"
+                                    "phone",
+                                    "amount"
                                 ],
                                 "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "254712345678"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "bill_ref": {
+                                        "type": "string",
+                                        "example": "TEST123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Simulation accepted"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/b2c": {
+            "post": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "B2C Payment",
+                "description": "Send money from business shortcode to a customer M-Pesa wallet (salary, refunds, promotions).",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone",
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "0712345678"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 500
+                                    },
+                                    "command_id": {
+                                        "type": "string",
+                                        "example": "BusinessPayment"
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "example": "Refund"
+                                    },
+                                    "occasion": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "B2C initiated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/b2b": {
+            "post": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "B2B Payment",
+                "description": "Send money to another business paybill or till number.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "receiver_shortcode",
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "receiver_shortcode": {
+                                        "type": "string",
+                                        "example": "600000"
+                                    },
                                     "amount": {
                                         "type": "number",
                                         "example": 1000
                                     },
-                                    "phone": {
-                                        "type": "string",
-                                        "example": "07XXXXXXXX"
-                                    },
-                                    "remarks": {
-                                        "type": "string",
-                                        "example": "Salary payment"
-                                    },
                                     "command_id": {
-                                        "description": "BusinessPayment | SalaryPayment | PromotionPayment",
                                         "type": "string",
-                                        "example": "BusinessPayment"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "B2C request accepted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "dataPayload": {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "ConversationID": {
-                                                            "type": "string",
-                                                            "example": "AG_20230101_..."
-                                                        },
-                                                        "OriginatorConversationID": {
-                                                            "type": "string",
-                                                            "example": "..."
-                                                        },
-                                                        "ResponseCode": {
-                                                            "type": "string",
-                                                            "example": "0"
-                                                        },
-                                                        "ResponseDescription": {
-                                                            "type": "string",
-                                                            "example": "Accept the service request successfully."
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "alertify": {
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string",
-                                                            "example": "Disbursement request submitted successfully."
-                                                        },
-                                                        "theme": {
-                                                            "type": "string",
-                                                            "example": "success"
-                                                        },
-                                                        "type": {
-                                                            "type": "string",
-                                                            "example": "toast"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "alertifyPayload": {
-                                            "properties": {
-                                                "errors": {
-                                                    "properties": {
-                                                        "phone": {
-                                                            "type": "string",
-                                                            "example": "Invalid phone number format. Expected 254710123456"
-                                                        },
-                                                        "amount": {
-                                                            "type": "string",
-                                                            "example": "Amount must be greater than 0"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/unipay/mpesa/b2b/transfer": {
-            "post": {
-                "tags": [
-                    "M-Pesa"
-                ],
-                "summary": "Transfer to Business",
-                "description": "Transfer funds from your shortcode to another business Paybill or Till",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "amount",
-                                    "receiver_shortcode"
-                                ],
-                                "properties": {
-                                    "amount": {
-                                        "type": "number",
-                                        "example": 5000
-                                    },
-                                    "receiver_shortcode": {
-                                        "type": "string",
-                                        "example": "174379"
+                                        "example": "BusinessPayBill"
                                     },
                                     "account_ref": {
                                         "type": "string",
-                                        "example": "Supplier-001"
+                                        "example": "INV-B2B-001"
                                     },
                                     "remarks": {
                                         "type": "string",
@@ -379,89 +306,180 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "B2B request accepted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "dataPayload": {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "ConversationID": {
-                                                            "type": "string",
-                                                            "example": "AG_20230101_..."
-                                                        },
-                                                        "OriginatorConversationID": {
-                                                            "type": "string",
-                                                            "example": "..."
-                                                        },
-                                                        "ResponseCode": {
-                                                            "type": "string",
-                                                            "example": "0"
-                                                        },
-                                                        "ResponseDescription": {
-                                                            "type": "string",
-                                                            "example": "Accept the service request successfully."
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "alertify": {
-                                                    "properties": {
-                                                        "message": {
-                                                            "type": "string",
-                                                            "example": "Transfer request submitted successfully."
-                                                        },
-                                                        "theme": {
-                                                            "type": "string",
-                                                            "example": "success"
-                                                        },
-                                                        "type": {
-                                                            "type": "string",
-                                                            "example": "toast"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "B2B initiated"
                     },
                     "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "alertifyPayload": {
-                                            "properties": {
-                                                "errors": {
-                                                    "properties": {
-                                                        "receiver_shortcode": {
-                                                            "type": "string",
-                                                            "example": "Receiver shortcode is required"
-                                                        },
-                                                        "amount": {
-                                                            "type": "string",
-                                                            "example": "Amount must be greater than 0"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/transaction-status": {
+            "post": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "Transaction Status Query",
+                "description": "Query the current status of any M-Pesa transaction by receipt number.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transaction_id"
+                                ],
+                                "properties": {
+                                    "transaction_id": {
+                                        "type": "string",
+                                        "example": "OEI2AK4DKL"
                                     },
-                                    "type": "object"
-                                }
+                                    "identifier_type": {
+                                        "type": "string",
+                                        "example": "4"
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "example": "Status check"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status query accepted"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/account-balance": {
+            "post": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "Account Balance",
+                "description": "Query M-Pesa account balance for your registered shortcode.",
+                "responses": {
+                    "200": {
+                        "description": "Balance query accepted"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/reversal": {
+            "post": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "Transaction Reversal",
+                "description": "Initiate a reversal for a completed M-Pesa transaction.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transaction_id",
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "transaction_id": {
+                                        "type": "string",
+                                        "example": "OEI2AK4DKL"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 100
+                                    },
+                                    "receiver_id_type": {
+                                        "type": "string",
+                                        "example": "11"
+                                    },
+                                    "remarks": {
+                                        "type": "string",
+                                        "example": "Reversal"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reversal initiated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/transactions": {
+            "get": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "List Transactions",
+                "description": "Paginated list of M-Pesa transactions. Admins see all; users see their own.",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "C2B"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "SUCCESS"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated transactions list"
+                    }
+                }
+            }
+        },
+        "/unipay/mpesa/transactions/{id}": {
+            "get": {
+                "tags": [
+                    "M-Pesa"
+                ],
+                "summary": "Get Transaction",
+                "description": "Retrieve a single transaction with responses and reconciliation data.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction detail"
+                    },
+                    "404": {
+                        "description": "Not found"
                     }
                 }
             }
@@ -469,6 +487,101 @@
     },
     "components": {
         "schemas": {
+            "MpesaFailures": {
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "transaction_id": {
+                        "title": "Transaction id",
+                        "type": "int",
+                        "example": "int"
+                    },
+                    "type": {
+                        "title": "Type",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "result_code": {
+                        "title": "Result code",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "result_desc": {
+                        "title": "Result desc",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "raw_payload": {
+                        "title": "Raw payload",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "type": "integer",
+                        "example": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "MpesaReconciliation": {
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "transaction_id": {
+                        "title": "Transaction id",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "mpesa_receipt": {
+                        "title": "Mpesa receipt",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "float",
+                        "example": "float"
+                    },
+                    "type": {
+                        "title": "Type",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "reconciled": {
+                        "title": "Reconciled",
+                        "type": "boo",
+                        "example": "boo"
+                    },
+                    "reconciled_at": {
+                        "title": "Reconciled at",
+                        "type": "int",
+                        "example": "int"
+                    },
+                    "notes": {
+                        "title": "Notes",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "type": "integer",
+                        "example": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "MpesaResponses": {
                 "properties": {
                     "id": {
@@ -509,7 +622,7 @@
                 },
                 "type": "object"
             },
-            "MpesaTransaction": {
+            "MpesaTransactions": {
                 "properties": {
                     "id": {
                         "title": "Id",
@@ -568,7 +681,70 @@
                     }
                 },
                 "type": "object"
+            },
+            "MpesaWebhookLogs": {
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "example": "integer"
+                    },
+                    "endpoint": {
+                        "title": "Endpoint",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "ip_address": {
+                        "title": "Ip address",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "raw_payload": {
+                        "title": "Raw payload",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "safaricom_ip_ok": {
+                        "title": "Safaricom ip ok",
+                        "type": "boo",
+                        "example": "boo"
+                    },
+                    "processed": {
+                        "title": "Processed",
+                        "type": "boo",
+                        "example": "boo"
+                    },
+                    "error_message": {
+                        "title": "Error message",
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "type": "integer",
+                        "example": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
-    }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "M-Pesa",
+            "description": "Safaricom M-Pesa payment integrations"
+        }
+    ]
 }

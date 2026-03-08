@@ -4,7 +4,7 @@ namespace unipay\models;
 
 /**
  *@OA\Schema(
- *  schema="MpesaTransaction",
+ *  schema="MpesaTransactions",
  *  @OA\Property(property="id", type="integer",title="Id", example="integer"),
  *  @OA\Property(property="user_id", type="int",title="User id", example="int"),
  *  @OA\Property(property="type", type="string",title="Type", example="string"),
@@ -19,19 +19,8 @@ namespace unipay\models;
  * )
  */
 
-class MpesaTransaction extends \unipay\hooks\BaseModel
+class MpesaTransactions extends \unipay\hooks\BaseModel
 {
-    /** Transaction types */
-    const TYPE_C2B = 'C2B';
-    const TYPE_B2C = 'B2C';
-    const TYPE_B2B = 'B2B';
-
-    /** Status values */
-    const STATUS_PENDING   = 'PENDING';
-    const STATUS_COMPLETED = 'COMPLETED';
-    const STATUS_FAILED    = 'FAILED';
-    const STATUS_TIMEOUT   = 'TIMEOUT';
-
     /**
      * {@inheritdoc}
      */
@@ -42,7 +31,7 @@ class MpesaTransaction extends \unipay\hooks\BaseModel
     /**
      * list of fields to output by the payload.
      */
-    public function fields(): array
+    public function fields()
     {
         return  
             [
@@ -52,48 +41,43 @@ class MpesaTransaction extends \unipay\hooks\BaseModel
             'amount',
             'phone',
             'status' => function () {
-                    return $this->recordStatus ?? $this->status;
+                    return $this->recordStatus;
                 },
             'conversation_id',
             'originator_conversation_id',
-            'created_at',
-            'updated_at',
             ];
     }
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            [['type', 'amount', 'created_at', 'updated_at'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'default', 'value' => null],
-            [['status'], 'default', 'value' => self::STATUS_PENDING],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['amount'], 'number', 'min' => 0],
-            [['type'],                       'string', 'max' => 10],
-            [['mpesa_receipt'],              'string', 'max' => 50],
-            [['phone', 'status'],            'string', 'max' => 20],
-            [['conversation_id',
-              'originator_conversation_id'], 'string', 'max' => 100],
-            [['type'], 'in', 'range' => [self::TYPE_C2B, self::TYPE_B2C, self::TYPE_B2B]],
-            [['status'], 'in', 'range' => [
-                self::STATUS_PENDING,
-                self::STATUS_COMPLETED,
-                self::STATUS_FAILED,
-                self::STATUS_TIMEOUT,
-            ]],
-            [['conversation_id'],            'unique'],
-            [['mpesa_receipt'],              'unique'],
+            [['type', 'amount', 'created_at', 'updated_at'], 'required'],
+            [['amount'], 'number'],
+            [['type'], 'string', 'max' => 10],
+            [['mpesa_receipt'], 'string', 'max' => 50],
+            [['phone', 'status'], 'string', 'max' => 20],
+            [['conversation_id', 'originator_conversation_id'], 'string', 'max' => 100],
+            [['conversation_id'], 'unique'],
+            [['mpesa_receipt'], 'unique'],
             [['originator_conversation_id'], 'unique'],
-            [['user_id'], 'exist',
-                'skipOnError'     => true,
-                'targetClass'     => Users::class,
-                'targetAttribute' => ['user_id' => 'user_id'],
-            ],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'user_id']],
         ];
     }
     
+
+    /**
+     * Gets query for [[MpesaReconciliations]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMpesaReconciliations()
+    {
+        return $this->hasMany(MpesaReconciliation::class, ['transaction_id' => 'id']);
+    }
 
     /**
      * Gets query for [[MpesaResponses]].
@@ -113,18 +97,5 @@ class MpesaTransaction extends \unipay\hooks\BaseModel
     public function getUser()
     {
         return $this->hasOne(Users::class, ['user_id' => 'user_id']);
-    }
-
-    /**
-     * Scopes
-     */
-    public static function findByConversationId(string $conversationId): ?self
-    {
-        return static::findOne(['conversation_id' => $conversationId]);
-    }
-
-    public static function findByReceipt(string $receipt): ?self
-    {
-        return static::findOne(['mpesa_receipt' => $receipt]);
     }
 }
